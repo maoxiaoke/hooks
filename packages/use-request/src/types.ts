@@ -18,12 +18,16 @@ export interface Fetches<R, P extends any[]> {
   [key: string]: FetchResult<R, P>;
 }
 export interface FetchResult<R, P extends any[]> {
+  
   loading: boolean;
   data: R | undefined;
   error: Error | undefined;
   params: P;
+  /** Cancel the current running request */
   cancel: noop;
+  /** Using the last params, re-execute the service */
   refresh: () => Promise<R>;
+  /** Modify the returned data directly */
   mutate: Mutate<R>;
   // TODO 如果 options 存在 debounceInterval，或 throttleInterval，则 run 和 refresh 不会返回 Promise。类型需要修复。
   run: (...args: P) => Promise<R>;
